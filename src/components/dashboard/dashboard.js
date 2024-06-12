@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useQuery, gql } from "@apollo/client";
 import styled from "@emotion/styled";
-import { useNavigate } from "react-router-dom"; // Import useNavigate hook for navigation
-import { useAuth } from "../../context/AuthContext";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -11,19 +9,38 @@ const StyledContainer = styled.div`
   margin-top: 50px;
 `;
 
-const StyledButton = styled.button`
-  margin-top: 20px;
-  padding: 10px 20px;
-  background-color: #1976d2;
+const Notification = styled.div`
+  width: 100%;
+  padding: 10px;
+  background-color: #f44336;
   color: white;
-  border: none;
-  cursor: pointer;
+  text-align: center;
+  font-size: 20px;
+  margin-bottom: 20px;
 `;
 
-const StyledTypography = styled.p`
-  margin-top: 20px;
+const CountContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+`;
+
+const CountColumn = styled.div`
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
+const CountTitle = styled.h3`
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+`;
+
+const CountValue = styled.p`
   font-size: 1.2rem;
-  color: red;
+  color: #666;
 `;
 
 const ME_QUERY = gql`
@@ -45,36 +62,24 @@ const GLOBAL_SIGNIN_COUNT_QUERY = gql`
 function Dashboard() {
   const { data: meData } = useQuery(ME_QUERY);
   const { data: globalData } = useQuery(GLOBAL_SIGNIN_COUNT_QUERY);
-  const { logout } = useAuth(); // Access the logout function and token information from useAuth
-  const navigate = useNavigate(); // Get the navigate function for navigation
-  const [logoutClicked, setLogoutClicked] = useState(false);
-
-  useEffect(() => {
- 
-    if (!localStorage.getItem("token")) {
-      navigate("/login");
-    }
-
-    
-  }, [logoutClicked]);
 
   return (
     <StyledContainer>
-      <h2>Welcome, {meData?.me?.username}</h2>
-      <p>Your Sign-In Count: {meData?.me?.signInCount}</p>
-      <p>Global Sign-In Count: {globalData?.globalSignInCount}</p>
-      <StyledButton
-        onClick={() => {
-          setLogoutClicked(!logoutClicked);
-          logout()
-        }}
-      >
-        Logout
-      </StyledButton>{" "}
-      {/* Add a logout button */}
       {globalData?.globalSignInCount >= 5 && (
-        <StyledTypography>Global Sign-In Count Reached 5!</StyledTypography>
+        <Notification>Global Sign-In Count Reached 5!</Notification>
       )}
+
+      <CountContainer>
+        <CountColumn>
+          <CountTitle>Your Sign-In Count:</CountTitle>
+          <CountValue>{meData?.me?.signInCount}</CountValue>
+        </CountColumn>
+
+        <CountColumn>
+          <CountTitle>Global Sign-In Count:</CountTitle>
+          <CountValue>{globalData?.globalSignInCount}</CountValue>
+        </CountColumn>
+      </CountContainer>
     </StyledContainer>
   );
 }

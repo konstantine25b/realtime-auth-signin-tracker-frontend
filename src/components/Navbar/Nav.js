@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import styled from "@emotion/styled";
 import { Outlet } from "react-router-dom";
@@ -34,8 +34,12 @@ const StyledButton = styled.button`
 `;
 
 const Nav = () => {
-  const { logOut, token } = useAuth();
+  const { logOut, token,refreshingToken } = useAuth();
   const [isLogged, setIsLogged] = useState(!!token);
+  
+  useLayoutEffect(()=>{
+    refreshingToken()
+  },[])
 
   useEffect(() => {
     setIsLogged(!!token);

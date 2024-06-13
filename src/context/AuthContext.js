@@ -45,24 +45,23 @@ export const AuthProvider = ({ children }) => {
   const [register] = useMutation(REGISTER_MUTATION);
   const [refreshToken] = useMutation(REFRESH_TOKEN_MUTATION);
 
-  useEffect(() => {
-    console.log(storedRefreshToken);
-    const interval = setInterval(async () => {
-      if (storedRefreshToken) {
-        try {
-          console.log(storedRefreshToken)
-          const { data } = await refreshToken({
-            variables: { refreshToken: storedRefreshToken },
-          });
-          console.log(data.refreshToken.token);
-          localStorage.setItem("token", data.refreshToken.token);
-          setToken(data.refreshToken.token);
-        } catch (error) {
-          console.error("Error refreshing token:", error);
-          logOut();
-        }
+  const refreshingToken = async () => {
+    if (storedRefreshToken) {
+      try {
+        const { data } = await refreshToken({
+          variables: { refreshToken: storedRefreshToken },
+        });
+        localStorage.setItem("token", data.refreshToken.token);
+        setToken(data.refreshToken.token);
+      } catch (error) {
+        console.error("Error refreshing token:", error);
+        logOut();
       }
-    }, 8 * 60 * 1000);
+    }
+  };
+
+  useEffect(() => {
+    const interval = setInterval(refreshingToken(), 8 * 60 * 1000);
     return () => clearInterval(interval);
   }, [storedRefreshToken]);
 
@@ -95,17 +94,20 @@ export const AuthProvider = ({ children }) => {
   const logOut = async () => {
     try {
       await signOut();
+    } catch (error) {
+      console.error("Error signing out:", error);
+    } finally {
       localStorage.removeItem("token");
       localStorage.removeItem("refreshToken");
       setToken("");
       navigate("/login");
-    } catch (error) {
-      console.error("Error signing out:", error);
     }
   };
 
   return (
-    <AuthContext.Provider value={{ token, logIn, logOut, signUp }}>
+    <AuthContext.Provider
+      value={{ token, logIn, logOut, signUp, refreshingToken }}
+    >
       {children}
     </AuthContext.Provider>
   );

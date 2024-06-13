@@ -1,26 +1,24 @@
-import React, { createContext, useContext, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { createContext, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const storedToken = localStorage.getItem('token');
-  const [token, setToken] = useState(storedToken || '');
+  const storedToken = localStorage.getItem("token");
+  const [token, setToken] = useState(storedToken || "");
   const navigate = useNavigate();
 
   const logIn = (newToken) => {
-    // Ensure newToken is not empty or null before setting it
     if (newToken) {
-      localStorage.setItem('token', newToken);
+      localStorage.setItem("token", newToken);
       setToken(newToken);
       navigate("/dashboard");
-
     }
   };
 
   const logOut = () => {
-    localStorage.removeItem('token');
-    setToken('');
+    localStorage.removeItem("token");
+    setToken("");
     navigate("/login");
   };
 

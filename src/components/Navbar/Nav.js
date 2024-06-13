@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../../context/AuthContext";
 import styled from "@emotion/styled";
+import { Outlet } from "react-router-dom";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -41,13 +42,14 @@ const Nav = () => {
   }, [token]);
 
   return (
-    <StyledContainer>
-      <StyledTitle>Realtime Sign in Counter</StyledTitle>
-      {isLogged && (
-        <StyledButton onClick={logOut}>Logout</StyledButton>
-      )}
-    </StyledContainer>
+    <>
+      <StyledContainer>
+        <StyledTitle>Realtime Sign in Counter</StyledTitle>
+        {isLogged && <StyledButton onClick={logOut}>Logout</StyledButton>}
+      </StyledContainer>
+      <Outlet />
+    </>
   );
-}
+};
 
 export default Nav;

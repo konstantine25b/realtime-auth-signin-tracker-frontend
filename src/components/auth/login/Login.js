@@ -63,7 +63,7 @@ const RegisterText = styled.span`
 const ErrorMessage = styled.p`
   margin-top: 10px;
   color: #c62828;
-  font-style: italic;
+
 `;
 
 const LOGIN_MUTATION = gql`

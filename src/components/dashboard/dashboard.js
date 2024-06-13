@@ -1,6 +1,8 @@
 import React from "react";
 import { useQuery, gql } from "@apollo/client";
 import styled from "@emotion/styled";
+import PersonalSignIn from "./PersonalSignIn";
+import GlobalSignIn from "./GlobalSignIn";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -25,34 +27,6 @@ const CountContainer = styled.div`
   width: 100%;
 `;
 
-const CountColumn = styled.div`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const CountTitle = styled.h3`
-  font-size: 1.5rem;
-  color: #333;
-  margin-bottom: 10px;
-`;
-
-const CountValue = styled.p`
-  font-size: 1.2rem;
-  color: #666;
-`;
-
-const ME_QUERY = gql`
-  query me {
-    me {
-      id
-      username
-      signInCount
-    }
-  }
-`;
-
 const GLOBAL_SIGNIN_COUNT_QUERY = gql`
   query globalSignInCount {
     globalSignInCount
@@ -60,7 +34,6 @@ const GLOBAL_SIGNIN_COUNT_QUERY = gql`
 `;
 
 function Dashboard() {
-  const { data: meData } = useQuery(ME_QUERY);
   const { data: globalData } = useQuery(GLOBAL_SIGNIN_COUNT_QUERY);
 
   return (
@@ -70,15 +43,9 @@ function Dashboard() {
       )}
 
       <CountContainer>
-        <CountColumn>
-          <CountTitle>Your Sign-In Count:</CountTitle>
-          <CountValue>{meData?.me?.signInCount}</CountValue>
-        </CountColumn>
+        <PersonalSignIn />
 
-        <CountColumn>
-          <CountTitle>Global Sign-In Count:</CountTitle>
-          <CountValue>{globalData?.globalSignInCount}</CountValue>
-        </CountColumn>
+        <GlobalSignIn />
       </CountContainer>
     </StyledContainer>
   );

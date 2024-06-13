@@ -34,7 +34,10 @@ const GLOBAL_SIGNIN_COUNT_QUERY = gql`
 `;
 
 function Dashboard() {
-  const { data: globalData } = useQuery(GLOBAL_SIGNIN_COUNT_QUERY);
+  const { loading, data: globalData } = useQuery(GLOBAL_SIGNIN_COUNT_QUERY);
+  if(loading){
+    return <></>
+  }
 
   return (
     <StyledContainer>

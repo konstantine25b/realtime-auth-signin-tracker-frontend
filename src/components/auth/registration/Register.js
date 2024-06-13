@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { useMutation, gql } from '@apollo/client';
-import styled from '@emotion/styled';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../context/AuthContext';
+import React, { useState } from "react";
+import { useMutation, gql } from "@apollo/client";
+import styled from "@emotion/styled";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -27,7 +27,7 @@ const StyledInput = styled.input`
   transition: border-color 0.3s;
 
   &:focus {
-    border-color: #1976D2;
+    border-color: #1976d2;
   }
 `;
 
@@ -35,7 +35,7 @@ const StyledButton = styled.button`
   width: 75%;
   max-width: 200px; /* Set a maximum width to avoid button stretching */
   padding: 10px;
-  background-color: #1976D2;
+  background-color: #1976d2;
   color: white;
   border: none;
   border-radius: 5px;
@@ -53,7 +53,7 @@ const StyledButton = styled.button`
 const RegisterText = styled.span`
   margin-top: 10px;
   text-decoration: underline;
-  color: #1976D2;
+  color: #1976d2;
   cursor: pointer;
   transition: color 0.3s;
 
@@ -65,36 +65,26 @@ const RegisterText = styled.span`
 const ErrorMessage = styled.p`
   margin-top: 10px;
   color: #c62828;
-
-`;
-
-const REGISTER_MUTATION = gql`
-  mutation register($username: String!, $password: String!) {
-    register(username: $username, password: $password) {
-      token
-    }
-  }
 `;
 
 function Register() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [register, { error }] = useMutation(REGISTER_MUTATION);
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
-  const { logIn } = useAuth();
+  const { signUp } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await register({ variables: { username, password } });
-      logIn(data.register.token);
-    } catch (err) {
-      console.error(err);
+     await signUp(username, password);
+    } catch (error) {
+      setError("Invalid username or password");
     }
   };
 
   const handleLoginClick = () => {
-    navigate('/login'); 
+    navigate("/login");
   };
 
   return (
@@ -115,12 +105,14 @@ function Register() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <StyledButton type="submit">
-          Register
-        </StyledButton>
+        <StyledButton type="submit">Register</StyledButton>
       </StyledForm>
-      <RegisterText onClick={handleLoginClick}>Already have an account? Login here</RegisterText>
-      {error && <ErrorMessage>Registration failed. Please try again.</ErrorMessage>}
+      <RegisterText onClick={handleLoginClick}>
+        Already have an account? Login here
+      </RegisterText>
+      {error && (
+        <ErrorMessage>Registration failed. Please try again.</ErrorMessage>
+      )}
     </StyledContainer>
   );
 }

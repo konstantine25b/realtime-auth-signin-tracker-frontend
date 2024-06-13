@@ -63,32 +63,22 @@ const RegisterText = styled.span`
 const ErrorMessage = styled.p`
   margin-top: 10px;
   color: #c62828;
-
-`;
-
-const LOGIN_MUTATION = gql`
-  mutation login($username: String!, $password: String!) {
-    login(username: $username, password: $password) {
-      token
-    }
-  }
 `;
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState(null);
   const { logIn } = useAuth();
-  const [login, { error }] = useMutation(LOGIN_MUTATION);
+
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await login({ variables: { username, password } });
-      logIn(data.login.token);
-      
-    } catch (err) {
-      console.error(err);
+      await logIn(username, password);
+    } catch (error) {
+      setError("Invalid username or password");
     }
   };
 

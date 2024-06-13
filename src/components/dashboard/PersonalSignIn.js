@@ -2,16 +2,6 @@ import React from "react";
 import { useQuery, gql } from "@apollo/client";
 import styled from "@emotion/styled";
 
-const ME_QUERY = gql`
-  query me {
-    me {
-      id
-      username
-      signInCount
-    }
-  }
-`;
-
 const CountColumn = styled.div`
   flex: 1;
   display: flex;
@@ -30,11 +20,23 @@ const CountValue = styled.p`
   color: #666;
 `;
 
+const ME_QUERY = gql`
+  query me {
+    me {
+      id
+      username
+      signInCount
+    }
+  }
+`;
+
 const PersonalSignIn = () => {
-  const { data: meData } = useQuery(ME_QUERY);
+  const { loading, error, data: meData } = useQuery(ME_QUERY);
+
   return (
     <CountColumn>
       <CountTitle>Your Sign-In Count:</CountTitle>
+      {error? <>Error: {error.message}</> :<></>}
       <CountValue>{meData?.me?.signInCount}</CountValue>
     </CountColumn>
   );

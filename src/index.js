@@ -1,24 +1,35 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import { ApolloProvider, ApolloClient, InMemoryCache } from '@apollo/client';
+import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
+import { setContext } from '@apollo/client/link/context';
 import './index.css';
 import App from './App';
 
+const httpLink = createHttpLink({
+  uri: 'http://localhost:8000/graphql/', // Replace with your GraphQL endpoint
+});
+
+const authLink = setContext((_, { headers }) => {
+  const token = localStorage.getItem('token');
+  return {
+    headers: {
+      ...headers,
+      authorization: token ? `JWT ${token}` : '', // Ensure proper format for JWT token
+    },
+  };
+});
+
 const client = new ApolloClient({
-  uri: 'http://localhost:8000/graphql/',
+  link: authLink.concat(httpLink),
   cache: new InMemoryCache(),
-  headers: {
-    authorization: `JWT ${localStorage.getItem('token')}`,
-  },
 });
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+
 root.render(
-  <ApolloProvider client={client}>
   <React.StrictMode>
-    <App />
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
   </React.StrictMode>
-  </ApolloProvider>
 );
-
-

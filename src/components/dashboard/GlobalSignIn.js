@@ -27,10 +27,11 @@ const CountValue = styled.p`
 `;
 
 const GlobalSignIn = () => {
-  const { data: globalData } = useQuery(GLOBAL_SIGNIN_COUNT_QUERY);
+  const {error, data: globalData } = useQuery(GLOBAL_SIGNIN_COUNT_QUERY);
   return (
     <CountColumn>
       <CountTitle>Global Sign-In Count:</CountTitle>
+      {error? <>Error: {error.message}</> :<></>}
       <CountValue>{globalData?.globalSignInCount}</CountValue>
     </CountColumn>
   );

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useQuery, gql } from "@apollo/client";
 import styled from "@emotion/styled";
+import { useAuth } from "../../context/AuthContext";
 
 const CountColumn = styled.div`
   flex: 1;
@@ -31,7 +32,11 @@ const ME_QUERY = gql`
 `;
 
 const PersonalSignIn = () => {
-  const { loading, error, data: meData } = useQuery(ME_QUERY);
+  const { loading, error, data: meData , refetch} = useQuery(ME_QUERY);
+  const {token } = useAuth();
+  useEffect(()=>{
+    refetch()
+  },[token])
 
   return (
     <CountColumn>

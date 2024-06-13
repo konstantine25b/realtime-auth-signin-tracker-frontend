@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useQuery, gql } from "@apollo/client";
 import styled from "@emotion/styled";
+import { useAuth } from "../../context/AuthContext";
 
 const GLOBAL_SIGNIN_COUNT_QUERY = gql`
   query globalSignInCount {
@@ -27,7 +28,11 @@ const CountValue = styled.p`
 `;
 
 const GlobalSignIn = () => {
-  const {error, data: globalData } = useQuery(GLOBAL_SIGNIN_COUNT_QUERY);
+  const {error, data: globalData,refetch } = useQuery(GLOBAL_SIGNIN_COUNT_QUERY);
+  const {token } = useAuth();
+  useEffect(()=>{
+    refetch()
+  },[token])
   return (
     <CountColumn>
       <CountTitle>Global Sign-In Count:</CountTitle>

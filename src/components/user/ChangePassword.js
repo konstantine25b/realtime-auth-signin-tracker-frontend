@@ -57,24 +57,30 @@ const ErrorMessage = styled.p`
 const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
+  const [error, setError] = useState(null);
   const { changingPassword, user } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (newPassword.length < 8) {
+      setError("New password must be at least 8 characters long.");
+      return;
+    }
+
     try {
       await changingPassword(currentPassword, newPassword);
-      alert("Password changed successfully!"); // Built-in alert for success
-      setCurrentPassword(""); // Clear input fields
-      setNewPassword(""); // Clear input fields
+      alert("Password changed successfully!");
+      setCurrentPassword("");
+      setNewPassword("");
     } catch (error) {
-      alert("Error changing password: " + error.message); // Built-in alert for error
+      alert("Error changing password: " + error.message);
     }
   };
 
   return (
     <StyledContainer>
       <h2>Change Password</h2>
-      <h3>Username: {user}</h3> {/* Display the username here */}
+      <h3>Username: {user}</h3>
       <StyledForm onSubmit={handleSubmit}>
         <StyledInput
           type="password"
@@ -85,11 +91,14 @@ const ChangePassword = () => {
         />
         <StyledInput
           type="password"
-          placeholder="New Password"
+          placeholder="New Password (at least 8 characters)"
           value={newPassword}
           onChange={(e) => setNewPassword(e.target.value)}
           required
+          pattern=".{8,}" // Minimum 8 characters
+          title="New password must be at least 8 characters long."
         />
+        {error && <ErrorMessage>{error}</ErrorMessage>}
         <StyledButton type="submit">Change Password</StyledButton>
       </StyledForm>
     </StyledContainer>

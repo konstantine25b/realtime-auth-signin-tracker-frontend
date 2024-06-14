@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useMutation, gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
@@ -25,6 +24,7 @@ const StyledInput = styled.input`
     border-color: #1976d2;
   }
 `;
+
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
@@ -88,7 +88,7 @@ function Login() {
 
   return (
     <StyledContainer>
-      <h2>Login </h2>
+      <h2>Login</h2>
       <StyledForm onSubmit={handleSubmit}>
         <StyledInput
           type="text"
@@ -99,10 +99,12 @@ function Login() {
         />
         <StyledInput
           type="password"
-          placeholder="Password"
+          placeholder="Password (at least 8 characters)"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          pattern=".{8,}" // Minimum 8 characters
+          title="Password must be at least 8 characters long."
         />
         <StyledButton type="submit">Login</StyledButton>
       </StyledForm>

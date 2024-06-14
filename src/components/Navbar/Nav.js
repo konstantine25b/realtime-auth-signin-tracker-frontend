@@ -3,6 +3,8 @@ import { useAuth } from "../../context/AuthContext";
 import styled from "@emotion/styled";
 import { UserIcon } from "@heroicons/react/24/solid";
 import { Outlet, useNavigate } from "react-router-dom";
+import Modal from "./LogoutModal";
+
 
 const StyledContainer = styled.div`
   display: flex;
@@ -41,12 +43,12 @@ const StyledButton = styled.button`
 
 const FancyUserIcon = styled(UserIcon)`
   width: 1.5rem; /* Adjust the size of the icon */
-  
 `;
 
 const Nav = () => {
-  const { logOut, token, refreshingToken , user} = useAuth();
+  const { logOut, token, refreshingToken, user } = useAuth();
   const [isLogged, setIsLogged] = useState(!!token);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const navigate = useNavigate();
 
   useLayoutEffect(() => {
@@ -59,6 +61,19 @@ const Nav = () => {
 
   const handleUserClick = () => {
     navigate("/user");
+  };
+
+  const handleLogoutClick = () => {
+    setIsModalOpen(true);
+  };
+
+  const handleConfirmLogout = () => {
+    setIsModalOpen(false);
+    logOut();
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
   };
 
   return (
@@ -74,10 +89,17 @@ const Nav = () => {
               @{user}
             </StyledButton>
           )}
-          {isLogged && <StyledButton onClick={logOut}>Logout</StyledButton>}
+          {isLogged && (
+            <StyledButton onClick={handleLogoutClick}>Logout</StyledButton>
+          )}
         </div>
       </StyledContainer>
       <Outlet />
+      <Modal
+        isOpen={isModalOpen}
+        onClose={handleCloseModal}
+        onConfirm={handleConfirmLogout}
+      />
     </>
   );
 };

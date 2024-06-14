@@ -54,26 +54,26 @@ const ErrorMessage = styled.p`
   color: #c62828;
 `;
 
-
 const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
   const [error, setError] = useState(null);
-  const { changingPassword} = useAuth();
+  const { changingPassword, user } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await changingPassword(currentPassword, newPassword)
+      await changingPassword(currentPassword, newPassword);
+      setError(null); // Clear any previous error
     } catch (error) {
       setError("Error changing password");
     }
-    
   };
 
   return (
     <StyledContainer>
       <h2>Change Password</h2>
+      <h3>Username: {user}</h3> {/* Display the username here */}
       <StyledForm onSubmit={handleSubmit}>
         <StyledInput
           type="password"

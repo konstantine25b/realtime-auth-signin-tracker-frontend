@@ -106,7 +106,7 @@ function Register() {
         />
         <StyledInput
           type="password"
-          placeholder="Password"
+          placeholder="Password (at least 8 characters)"
           value={password}
           onChange={(e) => {
             setPassword(e.target.value);

@@ -38,7 +38,7 @@ const ModalContainer = styled.div`
   background-color: white;
   padding: 30px;
   border-radius: 15px;
-  width: 400px;
+  width: 300px;
   text-align: center;
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
   animation: ${slideIn} 0.3s ease-out;

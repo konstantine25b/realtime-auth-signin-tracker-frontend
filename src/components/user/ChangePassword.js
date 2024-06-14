@@ -57,16 +57,17 @@ const ErrorMessage = styled.p`
 const ChangePassword = () => {
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
-  const [error, setError] = useState(null);
   const { changingPassword, user } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       await changingPassword(currentPassword, newPassword);
-      setError(null); // Clear any previous error
+      alert("Password changed successfully!"); // Built-in alert for success
+      setCurrentPassword(""); // Clear input fields
+      setNewPassword(""); // Clear input fields
     } catch (error) {
-      setError("Error changing password");
+      alert("Error changing password: " + error.message); // Built-in alert for error
     }
   };
 
@@ -91,7 +92,6 @@ const ChangePassword = () => {
         />
         <StyledButton type="submit">Change Password</StyledButton>
       </StyledForm>
-      {error && <ErrorMessage>{error}</ErrorMessage>}
     </StyledContainer>
   );
 };

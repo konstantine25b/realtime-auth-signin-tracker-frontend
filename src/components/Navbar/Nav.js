@@ -1,7 +1,8 @@
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import styled from "@emotion/styled";
-import { Outlet } from "react-router-dom";
+import { UserIcon } from "@heroicons/react/24/solid";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -14,42 +15,67 @@ const StyledContainer = styled.div`
 
 const StyledTitle = styled.h1`
   font-size: 1.8rem;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const StyledButton = styled.button`
   padding: 10px 20px;
-  background-color: #ffffff;
-  color: #1976d2;
-  border: 2px solid #ffffff;
+  background-color: ${(props) => (props.primary ? "#1976d2" : "#ffffff")};
+  color: ${(props) => (props.primary ? "white" : "#1976d2")};
+  border: 2px solid ${(props) => (props.primary ? "#1976d2" : "#ffffff")};
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s, border-color 0.3s;
   outline: none;
+  display: flex;
+  align-items: center;
 
   &:hover {
-    background-color: red;
+    background-color: ${(props) => (props.primary ? "#135293" : "red")};
     color: white;
-    border-color: red;
+    border-color: ${(props) => (props.primary ? "#135293" : "red")};
   }
 `;
 
-const Nav = () => {
-  const { logOut, token,refreshingToken } = useAuth();
-  const [isLogged, setIsLogged] = useState(!!token);
+const FancyUserIcon = styled(UserIcon)`
+  width: 1.5rem; /* Adjust the size of the icon */
   
-  useLayoutEffect(()=>{
-    refreshingToken()
-  },[])
+`;
+
+const Nav = () => {
+  const { logOut, token, refreshingToken , user} = useAuth();
+  const [isLogged, setIsLogged] = useState(!!token);
+  const navigate = useNavigate();
+
+  useLayoutEffect(() => {
+    refreshingToken();
+  }, []);
 
   useEffect(() => {
     setIsLogged(!!token);
   }, [token]);
 
+  const handleUserClick = () => {
+    navigate("/user");
+  };
+
   return (
     <>
       <StyledContainer>
-        <StyledTitle>Realtime Sign in Counter</StyledTitle>
-        {isLogged && <StyledButton onClick={logOut}>Logout</StyledButton>}
+        <StyledTitle onClick={() => navigate("/dashboard")}>
+          Realtime Sign in Counter
+        </StyledTitle>
+        <div style={{ display: "flex", alignItems: "center", gap: "5px" }}>
+          {isLogged && (
+            <StyledButton onClick={handleUserClick} primary>
+              <FancyUserIcon /> {/* FancyUserIcon with custom styles */}
+              @{user}
+            </StyledButton>
+          )}
+          {isLogged && <StyledButton onClick={logOut}>Logout</StyledButton>}
+        </div>
       </StyledContainer>
       <Outlet />
     </>

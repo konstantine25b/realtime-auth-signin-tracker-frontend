@@ -6,7 +6,7 @@ import './index.css';
 import App from './App';
 
 const httpLink = createHttpLink({
-  uri: 'http://localhost:8000/graphql/', // Replace with your GraphQL endpoint
+  uri: 'http://127.0.0.1:8000/graphql/', // Replace with your GraphQL endpoint
 });
 
 const authLink = setContext((_, { headers }) => {

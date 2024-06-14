@@ -11,6 +11,7 @@ import Register from "./components/auth/registration/Register";
 import Dashboard from "./components/dashboard/dashboard";
 import PrivateRoute from "./components/Routes/PrivateRoute";
 import ProtectedRoute from "./components/Routes/ProtectedRoute";
+import ChangePassword from "./components/user/ChangePassword";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -33,6 +34,11 @@ const router = createBrowserRouter(
       <Route path="/dashboard" element={
         <PrivateRoute>
           <Dashboard />
+        </PrivateRoute>
+      } />
+      <Route path="/user" element={
+        <PrivateRoute>
+          <ChangePassword />
         </PrivateRoute>
       } />
     </Route>

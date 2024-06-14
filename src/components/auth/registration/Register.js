@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useMutation, gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
@@ -70,16 +69,23 @@ const ErrorMessage = styled.p`
 function Register() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const { signUp } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (password.length < 8) {
+      setPasswordError("Password must be at least 8 characters long.");
+      return;
+    }
+
     try {
-     await signUp(username, password);
+      await signUp(username, password);
     } catch (error) {
-      setError("Invalid username or password");
+      setError("Registration failed. Please try again.");
     }
   };
 
@@ -102,11 +108,16 @@ function Register() {
           type="password"
           placeholder="Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) => {
+            setPassword(e.target.value);
+            setPasswordError(""); // Clear any previous error message
+          }}
           required
         />
+        {passwordError && <ErrorMessage>{passwordError}</ErrorMessage>}
         <StyledButton type="submit">Register</StyledButton>
       </StyledForm>
+
       <RegisterText onClick={handleLoginClick}>
         Already have an account? Login here
       </RegisterText>

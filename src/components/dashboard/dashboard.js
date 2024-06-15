@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useQuery, gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import PersonalSignIn from "./PersonalSignIn";
@@ -60,21 +60,36 @@ const WINNER_QUERY = gql`
 `;
 
 function Dashboard() {
-  const { loading: globalLoading, data: globalData } = useQuery(GLOBAL_SIGNIN_COUNT_QUERY);
-  const { loading: winnerLoading, data: winnerData } = useQuery(WINNER_QUERY, {
-    skip: globalData?.globalSignInCount < 215,
-  });
+  const [showNotification, setShowNotification] = useState(false);
+  const { loading: globalLoading, data: globalData, refetch: refetchGlobalCount } = useQuery(
+    GLOBAL_SIGNIN_COUNT_QUERY,
+    { fetchPolicy: "network-only" } // Ensure network-only fetch policy to avoid caching
+  );
+  const { loading: winnerLoading, data: winnerData, refetch: refetchWinner } = useQuery(WINNER_QUERY);
 
-  if (globalLoading || winnerLoading) {
-    return null; // or a loading spinner
+  useEffect(() => {
+    if (!globalLoading && !winnerLoading && globalData?.globalSignInCount >= 5 && winnerData?.winner) {
+      setShowNotification(true);
+    }
+  }, [globalLoading, winnerLoading, globalData, winnerData]);
+
+  useEffect(() => {
+    if( globalData?.globalSignInCount>=5){
+      refetchGlobalCount();
+      refetchWinner()
+    }
+
+  }, [globalLoading]);
+  if(globalLoading){
+    return null
   }
+  
 
   return (
     <StyledContainer>
-
-      {globalData?.globalSignInCount >= 215 && winnerData?.winner && (
+      {showNotification && (
         <Notification>
-          Global Sign-In Count Reached 215! Winner: {winnerData.winner.username}
+          Global Sign-In Count Reached 5! Winner: {winnerData.winner.username}
         </Notification>
       )}
 

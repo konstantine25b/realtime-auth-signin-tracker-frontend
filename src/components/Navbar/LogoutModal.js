@@ -36,45 +36,91 @@ const ModalOverlay = styled.div`
 
 const ModalContainer = styled.div`
   background-color: white;
-  padding: 30px;
-  border-radius: 15px;
-  width: 300px;
+  padding: 2rem;
+  border-radius: 1rem;
+  width: 80%;
+  max-width: 400px;
   text-align: center;
   box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.5);
   animation: ${slideIn} 0.3s ease-out;
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  @media (max-width: 768px) {
+    width: 70%;
+    padding: 1.5rem;
+  }
+
+  @media (max-width: 480px) {
+    width: 70%;
+    padding: 1rem;
+  }
 `;
 
 const ModalTitle = styled.h2`
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
   font-size: 1.5rem;
   color: #333;
+
+  @media (max-width: 768px) {
+    font-size: 1.25rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.1rem;
+  }
 `;
 
 const ModalButton = styled.button`
-  padding: 12px 25px;
-  margin: 10px;
+  padding: 0.75rem 1.5rem;
+  margin: 0.5rem;
   background-color: ${(props) => (props.primary ? "#d32f2f" : "#ccc")};
   color: ${(props) => (props.primary ? "white" : "#333")};
   border: none;
-  border-radius: 5px;
+  border-radius: 0.5rem;
   cursor: pointer;
   transition: background-color 0.3s, color 0.3s;
   font-size: 1rem;
   font-weight: bold;
+  flex: 1;
 
   &:hover {
     background-color: ${(props) => (props.primary ? "#9a0007" : "#999")};
     color: white;
   }
+
+  @media (max-width: 768px) {
+    font-size: 0.875rem;
+    padding: 0.5rem 1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.75rem;
+  }
 `;
 
 const ModalParagraph = styled.p`
-  margin-bottom: 25px;
+  margin-bottom: 1.5rem;
   font-size: 1.1rem;
   color: #666;
+
+  @media (max-width: 768px) {
+    font-size: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.875rem;
+  }
+`;
+
+const ButtonContainer = styled.div`
+  display: flex;
+  width: 90%;
+  justify-content: space-evenly;
+
+ 
 `;
 
 const Modal = ({ isOpen, onClose, onConfirm }) => {
@@ -85,12 +131,12 @@ const Modal = ({ isOpen, onClose, onConfirm }) => {
       <ModalContainer>
         <ModalTitle>Confirm Logout</ModalTitle>
         <ModalParagraph>Are you sure you want to logout?</ModalParagraph>
-        <div style={{ display: "flex" }}>
+        <ButtonContainer>
           <ModalButton onClick={onConfirm} primary>
             Yes
           </ModalButton>
           <ModalButton onClick={onClose}>No</ModalButton>
-        </div>
+        </ButtonContainer>
       </ModalContainer>
     </ModalOverlay>
   );

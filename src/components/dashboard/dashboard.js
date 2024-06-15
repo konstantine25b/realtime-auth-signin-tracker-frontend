@@ -50,17 +50,32 @@ const GLOBAL_SIGNIN_COUNT_QUERY = gql`
   }
 `;
 
-function Dashboard() {
-  const { loading, data: globalData } = useQuery(GLOBAL_SIGNIN_COUNT_QUERY);
+const WINNER_QUERY = gql`
+  query winner {
+    winner {
+      id
+      username
+    }
+  }
+`;
 
-  if (loading) {
+function Dashboard() {
+  const { loading: globalLoading, data: globalData } = useQuery(GLOBAL_SIGNIN_COUNT_QUERY);
+  const { loading: winnerLoading, data: winnerData } = useQuery(WINNER_QUERY, {
+    skip: globalData?.globalSignInCount < 215,
+  });
+
+  if (globalLoading || winnerLoading) {
     return null; // or a loading spinner
   }
 
   return (
     <StyledContainer>
-      {globalData?.globalSignInCount >= 5 && (
-        <Notification>Global Sign-In Count Reached 5!</Notification>
+
+      {globalData?.globalSignInCount >= 215 && winnerData?.winner && (
+        <Notification>
+          Global Sign-In Count Reached 215! Winner: {winnerData.winner.username}
+        </Notification>
       )}
 
       <CountContainer>

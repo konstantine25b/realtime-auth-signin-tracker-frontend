@@ -7,21 +7,44 @@ const StyledContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 50px;
+  margin-top: 3rem;
+  padding: 0 1rem;
+
+  @media (max-width: 768px) {
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 1rem;
+  }
 `;
+
 const StyledForm = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 25%;
+
+  @media (max-width: 1200px) {
+    width: 30%;
+  }
+
+  @media (max-width: 768px) {
+    width: 50%;
+  }
+
+  @media (max-width: 480px) {
+    width: 75%;
+  }
+  max-width: 300px;
 `;
 
 const StyledInput = styled.input`
   width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
+  padding: 0.625rem;
+  margin-bottom: 0.625rem;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   outline: none;
   transition: border-color 0.3s;
 
@@ -33,16 +56,15 @@ const StyledInput = styled.input`
 const StyledButton = styled.button`
   width: 75%;
   max-width: 200px; /* Set a maximum width to avoid button stretching */
-  padding: 10px;
+  padding: 0.625rem;
   background-color: #1976d2;
   color: white;
   border: none;
-  border-radius: 5px;
-  margin-bottom: 5px;
-  margin-top: 5px;
+  border-radius: 0.3125rem;
+  margin-bottom: 0.3125rem;
+  margin-top: 0.3125rem;
   cursor: pointer;
   transition: background-color 0.3s;
-  margin-top: 10px;
 
   &:hover {
     background-color: #135293;
@@ -50,7 +72,7 @@ const StyledButton = styled.button`
 `;
 
 const RegisterText = styled.span`
-  margin-top: 10px;
+  margin-top: 0.625rem;
   text-decoration: underline;
   color: #1976d2;
   cursor: pointer;
@@ -62,7 +84,7 @@ const RegisterText = styled.span`
 `;
 
 const ErrorMessage = styled.p`
-  margin-top: 10px;
+  margin-top: 0.625rem;
   color: #c62828;
 `;
 
@@ -95,7 +117,7 @@ function Register() {
 
   return (
     <StyledContainer>
-      <h2>Register </h2>
+      <h2>Register</h2>
       <StyledForm onSubmit={handleSubmit}>
         <StyledInput
           type="text"

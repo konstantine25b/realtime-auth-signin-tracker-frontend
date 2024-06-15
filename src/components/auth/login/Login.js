@@ -8,15 +8,24 @@ const StyledContainer = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 50px;
+  margin-top: 3rem;
+  padding: 0 1rem;
+
+  @media (max-width: 768px) {
+    margin-top: 2rem;
+  }
+
+  @media (max-width: 480px) {
+    margin-top: 1rem;
+  }
 `;
 
 const StyledInput = styled.input`
   width: 100%;
-  padding: 10px;
-  margin-bottom: 10px;
+  padding: 0.625rem;
+  margin-bottom: 0.625rem;
   border: 1px solid #ccc;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   outline: none;
   transition: border-color 0.3s;
 
@@ -30,26 +39,42 @@ const StyledForm = styled.form`
   flex-direction: column;
   align-items: center;
   width: 25%;
+
+
+  @media (max-width: 1200px) {
+    width: 30%;
+  }
+
+  @media (max-width: 768px) {
+    width: 50%;
+  }
+
+  @media (max-width: 480px) {
+    width: 75%;
+  }
+  max-width: 300px;
 `;
 
 const StyledButton = styled.button`
   width: 75%;
-  padding: 10px;
+  padding: 0.625rem;
+  max-width: 200px; /* Set a maximum width to avoid button stretching */
   background-color: #1976d2;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 0.3125rem;
   cursor: pointer;
   transition: background-color 0.3s;
-  margin-bottom: 5px;
-  margin-top: 5px;
+  margin-bottom: 0.3125rem;
+  margin-top: 0.3125rem;
+
   &:hover {
     background-color: #135293;
   }
 `;
 
 const RegisterText = styled.span`
-  margin-top: 10px;
+  margin-top: 0.625rem;
   text-decoration: underline;
   color: #1976d2;
   cursor: pointer;
@@ -61,7 +86,7 @@ const RegisterText = styled.span`
 `;
 
 const ErrorMessage = styled.p`
-  margin-top: 10px;
+  margin-top: 0.625rem;
   color: #c62828;
 `;
 

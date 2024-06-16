@@ -107,7 +107,7 @@ function Dashboard() {
     };
 
     winnerSocket.onclose = function (event) {
-      console.error("WebSocket closed unexpectedly");
+      console.log("WebSocket closed");
     };
 
     return () => {

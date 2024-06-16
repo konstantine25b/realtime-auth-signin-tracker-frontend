@@ -56,7 +56,7 @@ const PersonalSignIn = () => {
     };
 
     notiSocket.onclose = function (e) {
-      console.error("Notification socket closed unexpectedly");
+      console.log("WebSocket closed");
     };
 
     return () => {

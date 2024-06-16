@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useQuery, gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { useAuth } from "../../context/AuthContext";
+import { url } from "../../context/WebSocketUrl";
 
 const CountColumn = styled.div`
   flex: 1;
@@ -37,6 +38,29 @@ const PersonalSignIn = () => {
   useEffect(() => {
     refetch();
   }, [token]);
+  useEffect(() => {
+    
+
+    const handleWebSocketMessage = () => {
+      refetch(); 
+    };
+
+   
+    const notiSocket = new WebSocket(url);
+    notiSocket.onmessage = function (e) {
+      const data = JSON.parse(e.data);
+      console.log("Message received:", data.message);
+      handleWebSocketMessage(); 
+    };
+
+    notiSocket.onclose = function (e) {
+      console.error("Notification socket closed unexpectedly");
+    };
+
+    return () => {
+      notiSocket.close();
+    };
+  }, [refetch]); 
 
   return (
     <CountColumn>

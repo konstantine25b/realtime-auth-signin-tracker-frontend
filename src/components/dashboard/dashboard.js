@@ -3,6 +3,7 @@ import { useQuery, gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import PersonalSignIn from "./PersonalSignIn";
 import GlobalSignIn from "./GlobalSignIn";
+import { url } from "../../context/WebSocketUrl";
 
 const StyledContainer = styled.div`
   display: flex;
@@ -97,7 +98,7 @@ function Dashboard() {
 
   useEffect(() => {
 
-    const winnerSocket = new WebSocket("ws://127.0.0.1:8000/ws/winner/");
+    const winnerSocket = new WebSocket(url);
 
     winnerSocket.onmessage = function (event) {
       const data = JSON.parse(event.data);

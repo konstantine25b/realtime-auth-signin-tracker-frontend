@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useQuery, gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { useAuth } from "../../context/AuthContext";
+import { url } from "../../context/WebSocketUrl";
 
 const GLOBAL_SIGNIN_COUNT_QUERY = gql`
   query globalSignInCount {
@@ -43,7 +44,7 @@ const GlobalSignIn = () => {
     };
 
    
-    const notiSocket = new WebSocket(`ws://127.0.0.1:8000/ws/noti/`);
+    const notiSocket = new WebSocket(url);
     notiSocket.onmessage = function (e) {
       const data = JSON.parse(e.data);
       console.log("Message received:", data.message);

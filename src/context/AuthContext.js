@@ -92,7 +92,7 @@ export const AuthProvider = ({ children }) => {
   }, [refreshToken, storedRefreshToken, navigate, signOut]);
 
   useEffect(() => {
-    const interval = setInterval(refreshingToken, 10 * 1000);
+    const interval = setInterval(refreshingToken, 8* 60 * 1000);
     console.log(32)
     return () => clearInterval(interval);
   }, [refreshingToken]);

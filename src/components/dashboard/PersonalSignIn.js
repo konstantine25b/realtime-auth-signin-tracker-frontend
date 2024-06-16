@@ -33,11 +33,13 @@ const ME_QUERY = gql`
 `;
 
 const PersonalSignIn = () => {
-  const { loading, error, data: meData, refetch } = useQuery(ME_QUERY);
+  const {  error, data: meData, refetch } = useQuery(ME_QUERY);
   const { token } = useAuth();
+
   useEffect(() => {
     refetch();
-  }, [token]);
+  }, [token,refetch]);
+
   useEffect(() => {
     
 

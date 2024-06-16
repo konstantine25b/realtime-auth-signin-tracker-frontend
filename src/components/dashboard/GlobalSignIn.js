@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useQuery, gql } from "@apollo/client";
 import styled from "@emotion/styled";
 import { useAuth } from "../../context/AuthContext";
@@ -34,7 +34,7 @@ const GlobalSignIn = () => {
 
   useEffect(() => {
     refetch();
-  }, [token]);
+  }, [token,refetch]);
 
   useEffect(() => {
     

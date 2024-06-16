@@ -87,14 +87,14 @@ function Dashboard() {
       refetchWinner();
       setShowGlobalNotification(true);
     }
-  }, [globalLoading, winnerLoading, globalData, winnerData]);
+  }, [globalLoading, winnerLoading, globalData, winnerData,refetchWinner]);
 
   useEffect(() => {
     if (globalData?.globalSignInCount >= 5) {
       refetchWinner();
       refetchGlobalCount();
     }
-  }, [globalLoading]);
+  }, [globalData?.globalSignInCount,refetchWinner,refetchGlobalCount]);
 
   useEffect(() => {
 
@@ -113,7 +113,7 @@ function Dashboard() {
     return () => {
       winnerSocket.close();
     };
-  }, []); // Only runs once on component mount
+  }, [refetchWinner]); // Only runs once on component mount
 
   return (
     <StyledContainer>

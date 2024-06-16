@@ -104,7 +104,7 @@ const Nav = () => {
 
   useLayoutEffect(() => {
     refreshingToken();
-  }, []);
+  }, [refreshingToken]);
 
   useEffect(() => {
     setIsLogged(!!token);

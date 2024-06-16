@@ -48,4 +48,27 @@ This project includes a ReactJS frontend for a full-stack web application built 
    ```sh
    npm start
 
+## To test the real-time functionality and notifications, follow these steps:
+
+ 1. **Start the React Development Servers**:
+    
+    ```sh
+    npm start
+
+ 2. Open two (or more) separate terminal windows and run npm start in each to start two (or more) instances of the React development server.
+
+ ### Registration and Login:
+
+   In both instances of the application, proceed to register new users and log in.
+   Perform actions such as logging in and out to observe the personal sign-in count updates.
+   Monitor the global sign-in count in both instances to observe real-time updates.
+   When the global sign-in count reaches a certain threshold (e.g., 5 sign-ins), both instances should display visual notifications.
+
+ ### Interaction:
+
+   Ensure that actions in one instance (e.g., login/logout) reflect real-time updates in the other instance (global sign-in count).
+   Verify that notifications are triggered accurately based on the global sign-in count threshold.
+
+ These steps help validate the functionality of real-time updates, notifications, and overall user interaction within the application.
+
    

@@ -74,11 +74,11 @@ export const AuthProvider = ({ children }) => {
         localStorage.setItem("token", data.refreshToken.token);
         setToken(data.refreshToken.token);
       } catch (error) {
-        console.error("Error refreshing token:", error);
+        console.log("there was no refreshing token:", error);
         try {
           await signOut();
         } catch (error) {
-          console.error("Error signing out:", error);
+          console.log("there was no refreshing token so user cann't sign out:", error);
         } finally {
           localStorage.removeItem("token");
           localStorage.removeItem("refreshToken");

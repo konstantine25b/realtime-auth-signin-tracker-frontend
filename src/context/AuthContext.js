@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import { useMutation, gql } from "@apollo/client";
 
@@ -65,7 +65,7 @@ export const AuthProvider = ({ children }) => {
   const [refreshToken] = useMutation(REFRESH_TOKEN_MUTATION);
   const [changePassword] = useMutation(CHANGE_PASSWORD_MUTATION);
 
-  const refreshingToken = async () => {
+  const refreshingToken = useCallback(async () => {
     if (storedRefreshToken) {
       try {
         const { data } = await refreshToken({
@@ -75,15 +75,27 @@ export const AuthProvider = ({ children }) => {
         setToken(data.refreshToken.token);
       } catch (error) {
         console.error("Error refreshing token:", error);
-        logOut();
+        try {
+          await signOut();
+        } catch (error) {
+          console.error("Error signing out:", error);
+        } finally {
+          localStorage.removeItem("token");
+          localStorage.removeItem("refreshToken");
+          localStorage.removeItem("userReal");
+          setToken("");
+          navigate("/login");
+          setUser("");
+        }
       }
     }
-  };
+  }, [refreshToken, storedRefreshToken, navigate, signOut]);
 
   useEffect(() => {
-    const interval = setInterval(refreshingToken(), 8 * 60 * 1000);
+    const interval = setInterval(refreshingToken, 10 * 1000);
+    console.log(32)
     return () => clearInterval(interval);
-  }, [storedRefreshToken]);
+  }, [refreshingToken]);
 
   const signUp = async (username, password) => {
     try {

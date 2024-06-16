@@ -57,7 +57,7 @@ const GlobalSignIn = () => {
     return () => {
       notiSocket.close();
     };
-  }, [refetch]); // useEffect dependency on refetch function
+  }, [refetch]); 
 
   return (
     <CountColumn>

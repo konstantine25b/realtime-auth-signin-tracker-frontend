@@ -81,7 +81,7 @@ const StyledButton = styled.button`
 `;
 
 const FancyUserIcon = styled(UserIcon)`
-  width: 1.5rem; /* Adjust the size of the icon */
+  width: 1.5rem; 
 
   @media (max-width: 1200px) {
     width: 1.3rem;

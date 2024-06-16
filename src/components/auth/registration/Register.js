@@ -132,7 +132,7 @@ function Register() {
           value={password}
           onChange={(e) => {
             setPassword(e.target.value);
-            setPasswordError(""); // Clear any previous error message
+            setPasswordError(""); 
           }}
           required
         />

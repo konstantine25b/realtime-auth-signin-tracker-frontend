@@ -96,7 +96,7 @@ function Dashboard() {
   }, [globalLoading]);
 
   useEffect(() => {
-    // WebSocket connection setup for winner notifications
+
     const winnerSocket = new WebSocket("ws://127.0.0.1:8000/ws/winner/");
 
     winnerSocket.onmessage = function (event) {

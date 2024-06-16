@@ -119,8 +119,6 @@ const ButtonContainer = styled.div`
   display: flex;
   width: 90%;
   justify-content: space-evenly;
-
- 
 `;
 
 const Modal = ({ isOpen, onClose, onConfirm }) => {

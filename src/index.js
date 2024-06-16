@@ -1,20 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { ApolloProvider, ApolloClient, InMemoryCache, createHttpLink } from '@apollo/client';
-import { setContext } from '@apollo/client/link/context';
-import './index.css';
-import App from './App';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import {
+  ApolloProvider,
+  ApolloClient,
+  InMemoryCache,
+  createHttpLink,
+} from "@apollo/client";
+import { setContext } from "@apollo/client/link/context";
+import "./index.css";
+import App from "./App";
 
 const httpLink = createHttpLink({
-  uri: 'http://127.0.0.1:8000/graphql/', // Replace with your GraphQL endpoint
+  uri: "http://127.0.0.1:8000/graphql/", // Replace with your GraphQL endpoint
 });
 
 const authLink = setContext((_, { headers }) => {
-  const token = localStorage.getItem('token');
+  const token = localStorage.getItem("token");
   return {
     headers: {
       ...headers,
-      authorization: token ? `Bearer ${token}` : '', // Ensure proper format for JWT token
+      authorization: token ? `Bearer ${token}` : "", // Ensure proper format for JWT token
     },
   };
 });
@@ -24,7 +29,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache(),
 });
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <React.StrictMode>

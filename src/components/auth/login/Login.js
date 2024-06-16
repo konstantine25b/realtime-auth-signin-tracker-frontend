@@ -40,7 +40,6 @@ const StyledForm = styled.form`
   align-items: center;
   width: 25%;
 
-
   @media (max-width: 1200px) {
     width: 30%;
   }
@@ -58,7 +57,7 @@ const StyledForm = styled.form`
 const StyledButton = styled.button`
   width: 75%;
   padding: 0.625rem;
-  max-width: 200px; /* Set a maximum width to avoid button stretching */
+  max-width: 200px;
   background-color: #1976d2;
   color: white;
   border: none;

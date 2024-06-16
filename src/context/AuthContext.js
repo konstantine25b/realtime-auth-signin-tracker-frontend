@@ -55,7 +55,7 @@ const REFRESH_TOKEN_MUTATION = gql`
 export const AuthProvider = ({ children }) => {
   const storedToken = localStorage.getItem("token");
   const storedRefreshToken = localStorage.getItem("refreshToken");
-  const storedUser= localStorage.getItem("userReal");
+  const storedUser = localStorage.getItem("userReal");
   const [token, setToken] = useState(storedToken || "");
   const [user, setUser] = useState(storedUser || "");
   const navigate = useNavigate();
@@ -115,18 +115,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const changingPassword = async ( password, newPassword) => {
+  const changingPassword = async (password, newPassword) => {
     let token = localStorage.getItem("token");
     let refreshToken = localStorage.getItem("refreshToken");
-    
+
     try {
       localStorage.removeItem("token");
       localStorage.removeItem("refreshToken");
-       let username = user
+      let username = user;
       const { data } = await changePassword({
         variables: { username, password, newPassword },
       });
-  
+
       if (data.changePassword.success) {
         localStorage.setItem("token", data.changePassword.token);
         localStorage.setItem("refreshToken", data.changePassword.refreshToken);
@@ -143,9 +143,6 @@ export const AuthProvider = ({ children }) => {
       throw error;
     }
   };
-  
-
-  
 
   const logOut = async () => {
     try {
@@ -171,7 +168,7 @@ export const AuthProvider = ({ children }) => {
         signUp,
         refreshingToken,
         changingPassword,
-        user
+        user,
       }}
     >
       {children}

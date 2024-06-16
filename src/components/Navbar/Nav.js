@@ -22,7 +22,6 @@ const StyledContainer = styled.div`
   }
 
   @media (max-width: 480px) {
-   
     padding: 0.3rem 0.5rem;
   }
 `;
@@ -137,8 +136,7 @@ const Nav = () => {
         <div style={{ display: "flex", alignItems: "center", gap: "0.3rem" }}>
           {isLogged && (
             <StyledButton onClick={handleUserClick} primary>
-              <FancyUserIcon /> {/* FancyUserIcon with custom styles */}
-              @{user}
+              <FancyUserIcon /> {/* FancyUserIcon with custom styles */}@{user}
             </StyledButton>
           )}
           {isLogged && (

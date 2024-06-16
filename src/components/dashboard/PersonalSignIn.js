@@ -32,16 +32,16 @@ const ME_QUERY = gql`
 `;
 
 const PersonalSignIn = () => {
-  const { loading, error, data: meData , refetch} = useQuery(ME_QUERY);
-  const {token } = useAuth();
-  useEffect(()=>{
-    refetch()
-  },[token])
+  const { loading, error, data: meData, refetch } = useQuery(ME_QUERY);
+  const { token } = useAuth();
+  useEffect(() => {
+    refetch();
+  }, [token]);
 
   return (
     <CountColumn>
       <CountTitle>Your Sign-In Count:</CountTitle>
-      {error? <>Error: {error.message}</> :<></>}
+      {error ? <>Error: {error.message}</> : <></>}
       <CountValue>{meData?.me?.signInCount}</CountValue>
     </CountColumn>
   );

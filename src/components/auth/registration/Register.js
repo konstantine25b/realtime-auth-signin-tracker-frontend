@@ -55,7 +55,7 @@ const StyledInput = styled.input`
 
 const StyledButton = styled.button`
   width: 75%;
-  max-width: 200px; /* Set a maximum width to avoid button stretching */
+  max-width: 200px;
   padding: 0.625rem;
   background-color: #1976d2;
   color: white;

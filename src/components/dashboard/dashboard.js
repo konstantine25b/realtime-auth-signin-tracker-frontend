@@ -60,39 +60,67 @@ const WINNER_QUERY = gql`
 `;
 
 function Dashboard() {
-  const [showNotification, setShowNotification] = useState(false);
-  const { loading: globalLoading, data: globalData, refetch: refetchGlobalCount } = useQuery(
+  const [showGlobalNotification, setShowGlobalNotification] = useState(false);
+
+  const {
+    loading: globalLoading,
+    data: globalData,
+    refetch: refetchGlobalCount,
+  } = useQuery(
     GLOBAL_SIGNIN_COUNT_QUERY,
     { fetchPolicy: "network-only" } // Ensure network-only fetch policy to avoid caching
   );
-  const { loading: winnerLoading, data: winnerData, refetch: refetchWinner } = useQuery(WINNER_QUERY);
+  const {
+    loading: winnerLoading,
+    data: winnerData,
+    refetch: refetchWinner,
+  } = useQuery(WINNER_QUERY);
 
   useEffect(() => {
-    if (!globalLoading && !winnerLoading && globalData?.globalSignInCount >= 5 && winnerData?.winner) {
-      setShowNotification(true);
+    if (
+      !globalLoading &&
+      !winnerLoading &&
+      globalData?.globalSignInCount >= 5 &&
+      winnerData?.winner
+    ) {
+      refetchWinner();
+      setShowGlobalNotification(true);
     }
   }, [globalLoading, winnerLoading, globalData, winnerData]);
 
   useEffect(() => {
-    if( globalData?.globalSignInCount>=5){
+    if (globalData?.globalSignInCount >= 5) {
+      refetchWinner();
       refetchGlobalCount();
-      refetchWinner()
     }
-
   }, [globalLoading]);
-  if(globalLoading){
-    return null
-  }
-  
+
+  useEffect(() => {
+    // WebSocket connection setup for winner notifications
+    const winnerSocket = new WebSocket("ws://127.0.0.1:8000/ws/winner/");
+
+    winnerSocket.onmessage = function (event) {
+      const data = JSON.parse(event.data);
+      console.log("Received winner message:", data.message);
+      refetchWinner();
+    };
+
+    winnerSocket.onclose = function (event) {
+      console.error("WebSocket closed unexpectedly");
+    };
+
+    return () => {
+      winnerSocket.close();
+    };
+  }, []); // Only runs once on component mount
 
   return (
     <StyledContainer>
-      {showNotification && (
+      {showGlobalNotification && (
         <Notification>
-          Global Sign-In Count Reached 5! Winner: {winnerData.winner.username}
+          Global Sign-In Count Reached 5! Winner: {winnerData?.winner?.username}
         </Notification>
       )}
-
       <CountContainer>
         <PersonalSignIn />
         <GlobalSignIn />

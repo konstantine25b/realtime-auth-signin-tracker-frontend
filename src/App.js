@@ -16,41 +16,52 @@ import ChangePassword from "./components/user/ChangePassword";
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" element={<Root />}>
-      <Route index={true} element={
-        <ProtectedRoute>
-          <Login />
-        </ProtectedRoute>
-      } />
-      <Route path="/login" element={
-        <ProtectedRoute>
-          <Login />
-        </ProtectedRoute>
-      } />
-      <Route path="/register" element={
-        <ProtectedRoute>
-          <Register />
-        </ProtectedRoute>
-      } />
-      <Route path="/dashboard" element={
-        <PrivateRoute>
-          <Dashboard />
-        </PrivateRoute>
-      } />
-      <Route path="/user" element={
-        <PrivateRoute>
-          <ChangePassword />
-        </PrivateRoute>
-      } />
+      <Route
+        index={true}
+        element={
+          <ProtectedRoute>
+            <Login />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/login"
+        element={
+          <ProtectedRoute>
+            <Login />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          <ProtectedRoute>
+            <Register />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/dashboard"
+        element={
+          <PrivateRoute>
+            <Dashboard />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/user"
+        element={
+          <PrivateRoute>
+            <ChangePassword />
+          </PrivateRoute>
+        }
+      />
     </Route>
   )
 );
 
 function App() {
-  return (
-
-      <RouterProvider router={router} />
-
-  );
+  return <RouterProvider router={router} />;
 }
 
 export default App;
